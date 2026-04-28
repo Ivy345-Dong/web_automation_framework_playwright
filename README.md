@@ -257,22 +257,3 @@ def test_add_goods_to_cart(self):
     pass
 ```
 
-### 3. Browser Instance Conflicts in Parallel Testing
-
-The project has fixed the DriverFactory class variable issue, ensuring that each browser type maintains independent instances to avoid mutual overwriting.
-
-## Contributing
-
-1. Fork this project
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License.
-
-## Contact
-
-If you have any questions or suggestions, please submit an Issue.
