@@ -15,7 +15,7 @@ class TestLogin:
         self.swag_labs_proxy = SwagLabsProxy(self.driver)
 
     @pytest.mark.parametrize("username, password, keywords",
-                             get_json_data("../data/test_login.json"))
+                             get_json_data("./data/test_login.json"))
     def test_login_success(self, username, password, keywords):
         """Test successful login - runs with fresh browser"""
         self.login_proxy.login(username, password)
@@ -23,7 +23,7 @@ class TestLogin:
         self.swag_labs_proxy.logout()
 
     @pytest.mark.parametrize("username, password, keywords",
-                             get_json_data("../data/test_login_failed.json"))
+                             get_json_data("./data/test_login_failed.json"))
     def test_login_failed(self, username, password, keywords):
         """Test failed login - runs with fresh browser"""
         self.login_proxy.login(username, password)
