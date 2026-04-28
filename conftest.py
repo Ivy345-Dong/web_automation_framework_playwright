@@ -19,10 +19,10 @@ def browser(request):
 def pytest_generate_tests(metafunc):
     """Auto-parametrize tests with browsers from environment.yaml
     Uses indirect=True so tests don't need to accept browser parameter"""
-    # 只对使用 driver_function 或 driver_class fixture 的测试进行参数化
+    # Only parameterize tests that use the driver_function or driver_class fixture
     if "driver_function" in metafunc.fixturenames or "driver_class" in metafunc.fixturenames:
         enabled_browsers = get_enabled_browsers()
-        # 使用 indirect=True，browser 参数不会直接传给测试方法，而是传给 browser fixture
+        # When using indirect=True, the browser parameter is not passed directly to the test method, but to the browser fixture.
         metafunc.parametrize("browser", enabled_browsers, indirect=True, scope="session")
 
 
