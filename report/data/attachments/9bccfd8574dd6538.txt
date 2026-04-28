@@ -1,0 +1,3 @@
+INFO     test_framework:conftest.py:103 prepare to test: test_login_failed[edge--secret_sauce-Epic sadface: Username is required]
+INFO     test_framework:driver_factory.py:21 Detected screen resolution: 1280x800
+INFO     test_framework:conftest.py:110 clean test: test_login_failed[edge--secret_sauce-Epic sadface: Username is required]

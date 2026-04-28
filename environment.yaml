@@ -1,0 +1,20 @@
+web:
+  url: "https://www.saucedemo.com/"
+
+browser:
+  enabled:
+    - chrome
+    - edge
+    - firefox
+    # - webkit  # Safari (macOS only)
+  # Available browsers:
+  # - chrome    # Google Chrome
+  # - edge      # Microsoft Edge
+  # - firefox   # Mozilla Firefox
+  # - webkit    # Safari (macOS only)
+  # - chromium  # Plain Chromium
+  parallel:
+    enabled: true
+    workers: auto
+  # workers can be: auto, or a specific number like 2, 4, 8
+  # auto = automatically detect CPU cores
