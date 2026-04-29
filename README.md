@@ -131,15 +131,6 @@ python_functions = test_*
 ```bash
 # Run all tests
 pytest
-
-# Run specific test file
-pytest scripts/test_login.py
-
-# Run specific test class
-pytest scripts/test_shopping.py::TestShopping
-
-# Run specific test method
-pytest scripts/test_shopping.py::TestShopping::test_login
 ```
 
 ### Headless Mode
@@ -158,12 +149,6 @@ pytest -n 3
 pytest -n auto
 ```
 
-### Combined Usage
-
-```bash
-# Headless mode + parallel testing + clean reports + generate report + open report
-Remove-Item -Recurse -Force allure-results -ErrorAction SilentlyContinue; pytest -n 3 --headless; allure generate ./allure-results -o ./report --clean; allure open ./report
-```
 
 ## Test Reports
 
@@ -183,77 +168,54 @@ allure open ./report
 allure serve ./allure-results
 ```
 
+### Combined Usage
+
+```bash
+# Headless mode + parallel testing + clean reports + generate report + open report
+Remove-Item -Recurse -Force allure-results -ErrorAction SilentlyContinue; pytest -n 3 --headless; allure generate ./allure-results -o ./report --clean; allure open ./report
+```
+
+## CI/CD Integration with Jenkins
+
+The project includes a `Jenkinsfile` for seamless integration with Jenkins CI/CD pipelines.
+
+### Jenkins Configuration Requirements
+
+1. **Python Tool**: Add a Python installation named `Python3` in Jenkins Global Tool Configuration
+2. **Allure Plugin**: Install the [Allure Jenkins Plugin](https://plugins.jenkins.io/allure/)
+
+### Jenkins Pipeline Setup
+
+1. Create a new **Pipeline** job in Jenkins
+2. Select **Pipeline script from SCM** as the definition
+3. Configure your Git repository URL
+4. Set **Script Path** to `Jenkinsfile`
+5. Save and run the pipeline
+
+### Pipeline Execution Flow
+
+The `Jenkinsfile` defines the following automated workflow:
+
+1. **Clean Workspace** - Remove old test results and reports
+2. **Install Dependencies** - Install pytest, pytest-xdist, allure-pytest and other dependencies
+3. **Run Tests** - Execute tests in parallel with headless mode
+4. **Generate Allure Report** - Generate HTML test report
+5. **Publish Allure Report** - Publish report to Jenkins dashboard
+
 ## Page Object Model Design
 
-The project adopts a three-layer POM architecture:
+Three-layer POM architecture:
 
-### 1. Page Layer (BasePage)
-Defines page element locators
-
-```python
-class LoginPage(BasePage):
-    def find_username_input(self) -> Locator:
-        return self.get_element("#user-name")
-```
-
-### 2. Handle Layer (BaseHandle)
-Encapsulates page operations
-
-```python
-class LoginHandle(BaseHandle):
-    def input_username(self, username: str):
-        self.input_text(self.login_page.find_username_input(), username)
-```
-
-### 3. Proxy Layer
-Encapsulates business logic
-
-```python
-class LoginProxy:
-    def login(self, username: str, password: str):
-        self.login_handle.input_username(username)
-        self.login_handle.input_password(password)
-        self.login_handle.click_login_button()
-```
+- **Page Layer**: Defines page element locators
+- **Handle Layer**: Encapsulates UI operations
+- **Proxy Layer**: Encapsulates business logic
 
 ## Data-Driven Testing
 
-Use JSON files to store test data:
-
-```json
-{
-  "test_case_1": {
-    "username": "standard_user",
-    "password": "secret_sauce"
-  }
-}
-```
-
-Usage in tests:
-
-```python
-@pytest.mark.parametrize("username, password", get_json_data("data/test_login.json"))
-def test_login(self, username, password):
-    self.login_proxy.login(username, password)
-```
+Use JSON files to store test data and `@pytest.mark.parametrize` decorator for data-driven testing.
 
 ## FAQ
 
 ### 1. Network Connection Error (net::ERR_CONNECTION_RESET)
 
 The project is configured with an automatic retry mechanism that retries 2 times with a 3-second interval by default. If the issue persists, please check your network connection or increase the retry count.
-
-### 2. Test Execution Order Issues
-
-Use the `pytest-ordering` plugin to control test execution order:
-
-```python
-@pytest.mark.run(order=1)
-def test_login(self):
-    pass
-
-@pytest.mark.run(order=2)
-def test_add_goods_to_cart(self):
-    pass
-```
-
