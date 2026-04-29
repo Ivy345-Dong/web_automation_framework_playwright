@@ -1,5 +1,7 @@
 {
   "add goods and remove": {
+    "username": "standard_user",
+    "password": "secret_sauce",
     "goods_name1": "Sauce Labs Backpack",
     "goods_name2": "Sauce Labs Bike Light",
     "add_count": "2",
